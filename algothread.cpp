@@ -53,12 +53,13 @@ void* runHabitants(void* arguments)
         //Ici l'habitant a obtenu un velo alors il peut partir -> le velo est retiré de la borne du site de départ
         algoThread->listSite->at(hab->siteDepart)->nbVeloSurSite--;
         emit algoThread->setSiteVelo(hab->siteDepart,algoThread->listSite->at(hab->siteDepart)->nbVeloSurSite);
+        //Une fois que l'habitant est parti, on signale qu'une borne s'est libérée
+        pthread_cond_signal(&algoThread->listSite->at(hab->siteDepart)->condBorneLibre);
         pthread_mutex_unlock(&algoThread->listSite->at(hab->siteDepart)->mutex);
         emit algoThread->setHabitantState(hab->idHab,ParamList::BIKE);
         emit algoThread->startDeplacement(hab->idHab,hab->siteDepart,hab->siteArrivee,hab->tempVoyage);
-        //Une fois que l'habitant est parti, on signale qu'une borne s'est libérée
-        pthread_cond_signal(&algoThread->listSite->at(hab->siteDepart)->condBorneLibre);
 
+        //L'habitant voyage
         Sleep(hab->tempVoyage);
 
         //L'habitant arrive à son site d'arrivée
@@ -73,9 +74,9 @@ void* runHabitants(void* arguments)
         //Une borne s'est libérée, il peut y placer son vélo et commencer son action (=activité)
         algoThread->listSite->at(hab->siteArrivee)->nbVeloSurSite++;
         emit algoThread->setSiteVelo(hab->siteArrivee,algoThread->listSite->at(hab->siteArrivee)->nbVeloSurSite);
+        //L'habitant signale qu'il a apporté un vélo sur le site d'arrivée (donc qu'un vélo est disponible pour quelqu'un qui veut partir)
+        pthread_cond_signal(&algoThread->listSite->at(hab->siteArrivee)->condVeloDispo);
         pthread_mutex_unlock(&algoThread->listSite->at(hab->siteArrivee)->mutex);
-        //L'habitant signal qu'il a apporté un vélo (donc qu'un vélo est disponible pour quelqu'un qui veut partir)
-        pthread_cond_signal(&algoThread->listSite->at(hab->siteArrivee)->mutex);
         emit algoThread->setHabitantState(hab->idHab,ParamList::ACTION);
 
         //Mise à jour du site de départ (ancien site d'arrivée)
@@ -117,7 +118,10 @@ void* runMaintenance(void* arguments)
         {
             //L'equipe se déplace
             emit algoThread->startCamionDeplacement(i-1,i,maint->tempVoyage);
+
+            //L'équipe se déplace
             Sleep(maint->tempVoyage);
+
             pthread_mutex_lock(&algoThread->listSite->at(i)->mutex);
             int Vi = algoThread->listSite->at(i)->nbVeloSurSite;
             //Si trop de velo sur le site, l'equipe en prends dans le camion
