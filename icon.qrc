@@ -6,5 +6,6 @@
         <file>img/people_wait.png</file>
         <file>img/place.png</file>
         <file>img/bike.png</file>
+        <file>img/logoHeArc.png</file>
     </qresource>
 </RCC>

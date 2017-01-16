@@ -1,3 +1,19 @@
+/*
+ * Projet :         Labo 2 du cours Programmation concurrente : Smart City
+ * Enseignante :    A.Rizzotti
+ * Auteurs :        Sylvain Renaud & Johnny Da Costa
+ * Date :           22.01.2017
+ *
+ *   _____                          _     _____  _  _
+ *  /  ___|                        | |   /  __ \(_)| |
+ *  \ `--.  _ __ ___    __ _  _ __ | |_  | /  \/ _ | |_  _   _
+ *   `--. \| '_ ` _ \  / _` || '__|| __| | |    | || __|| | | |
+ *  /\__/ /| | | | | || (_| || |   | |_  | \__/\| || |_ | |_| |
+ *  \____/ |_| |_| |_| \__,_||_|    \__|  \____/|_| \__| \__, |
+ *                                                        __/ |
+ *                                                       |___/
+*/
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
@@ -12,6 +28,10 @@
 
 #include "paramlist.h"
 
+class QAction;
+class QActionGroup;
+class QLabel;
+class QMenu;
 
 namespace Ui {
 class MainWindow;
@@ -24,6 +44,15 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(int nbSite,int nbHabitants,int nbBorne,int nbVelo,QWidget *parent = 0);
     ~MainWindow();
+
+private :
+    void createMenus();
+    void createActions();
+    QMenu* aboutMenu;
+    QAction *aboutAct;
+
+private slots:
+    void about();
 
 public slots:
      void initSite(int siteId,int nbVelo);

@@ -1,3 +1,19 @@
+/*
+ * Projet :         Labo 2 du cours Programmation concurrente : Smart City
+ * Enseignante :    A.Rizzotti
+ * Auteurs :        Sylvain Renaud & Johnny Da Costa
+ * Date :           22.01.2017
+ *
+ *   _____                          _     _____  _  _
+ *  /  ___|                        | |   /  __ \(_)| |
+ *  \ `--.  _ __ ___    __ _  _ __ | |_  | /  \/ _ | |_  _   _
+ *   `--. \| '_ ` _ \  / _` || '__|| __| | |    | || __|| | | |
+ *  /\__/ /| | | | | || (_| || |   | |_  | \__/\| || |_ | |_| |
+ *  \____/ |_| |_| |_| \__,_||_|    \__|  \____/|_| \__| \__, |
+ *                                                        __/ |
+ *                                                       |___/
+*/
+
 #include "algothread.h"
 #include <QTime>
 #include <cstdlib>

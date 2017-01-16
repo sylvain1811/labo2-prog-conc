@@ -1,12 +1,36 @@
+/*
+ * Projet :         Labo 2 du cours Programmation concurrente : Smart City
+ * Enseignante :    A.Rizzotti
+ * Auteurs :        Sylvain Renaud & Johnny Da Costa
+ * Date :           22.01.2017
+ *
+ *   _____                          _     _____  _  _
+ *  /  ___|                        | |   /  __ \(_)| |
+ *  \ `--.  _ __ ___    __ _  _ __ | |_  | /  \/ _ | |_  _   _
+ *   `--. \| '_ ` _ \  / _` || '__|| __| | |    | || __|| | | |
+ *  /\__/ /| | | | | || (_| || |   | |_  | \__/\| || |_ | |_| |
+ *  \____/ |_| |_| |_| \__,_||_|    \__|  \____/|_| \__| \__, |
+ *                                                        __/ |
+ *                                                       |___/
+*/
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QMenu>
+#include <QMenuBar>
+#include <QAction>
+#include <QActionGroup>
+#include <QMessageBox>
 
 MainWindow::MainWindow(int _nbSite,int _nbHabitants,int _nbBorne,int _nbVelo,QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    setWindowTitle("Smart City");
+    setWindowTitle("Labo 2 : Smart City");
+    createActions();
+    createMenus();
+
     nbSite = _nbSite;
     nbHabitants = _nbHabitants;
     nbBorne = _nbBorne;
@@ -48,6 +72,37 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+void MainWindow::createMenus()
+{
+    aboutMenu = menuBar()->addMenu(tr("&About"));
+    aboutMenu->addAction(aboutAct);
+}
+
+void MainWindow::createActions()
+{
+    aboutAct = new QAction(tr("&About"), this);
+    aboutAct->setShortcut(tr("Ctrl+A"));
+    connect(aboutAct, SIGNAL(triggered(bool)), this, SLOT(about()));
+}
+
+void MainWindow::about()
+{
+    /*QMessageBox::about(this, tr("A Propos"),
+    tr("Développeur : \n Sylvain Renaud & Johnny Da Costa\n\n"
+       "A propos du logiciel :\n"
+       "Ce programme est issu du laboratoire 2 de programmation concurrente."
+       ""));*/
+
+
+    QMessageBox::about(this, tr("A Propos"),
+    tr("Projet : Labo 2 du cours Programmation concurrente : Smart City\n"
+       "Enseignante : A.Rizzotti\n"
+       "Auteurs : Sylvain Renaud & Johnny Da Costa\n"
+       "Date : 22.01.2017\n"
+       ""));
+}
+
 
 // methodes d'initialisation Graphique
 void MainWindow::initSite(int siteId,int nbVelo)
